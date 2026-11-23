@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+set -eu
+[ "${HOOK_SKIP:-0}" = "1" ] && exit 0
+echo "pre-commit: lint, typecheck, unit tests"
+uv run python -c "
+import sys
+from pathlib import Path
+from tools.lint_check import run_lint, run_typecheck
+from tools.xtask import run_pytest
+root = Path('.')
+ok = run_lint(root) and run_typecheck(root) and run_pytest('unit tests', ['tests/test_unit.py', '-q'])
+sys.exit(0 if ok else 1)
+"
