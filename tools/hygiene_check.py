@@ -4,17 +4,24 @@ import subprocess
 from pathlib import Path
 
 MAX_LINES = 500
-SKIP_DIRS = {".venv", ".git", "__pycache__", "dist", ".pytest_cache"}
+SKIP_DIRS = {".venv", ".git", "__pycache__", "dist", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
 CHECK_EXTS = {".py", ".md", ".sh", ".toml", ".yml", ".yaml"}
-FORBIDDEN_FILES = ["package.json", "requirements.txt", ".prettierrc", "ruff.toml"]
+FORBIDDEN_FILES = [
+    "package.json",
+    "requirements.txt",
+    ".prettierrc",
+    "ruff.toml",
+    ".ruff.toml",
+    ".black.toml",
+]
 
 
 def run_hygiene(root: Path) -> bool:
-    errors: list[str] = []
-    for forbidden in FORBIDDEN_FILES:
-        if (root / forbidden).exists():
-            errors.append(f"forbidden artifact '{forbidden}' present")
-
+    errors: list[str] = [
+        f"forbidden artifact '{forbidden}' present"
+        for forbidden in FORBIDDEN_FILES
+        if (root / forbidden).exists()
+    ]
     for path in root.rglob("*"):
         if any(part in SKIP_DIRS for part in path.parts) or not path.is_file():
             continue

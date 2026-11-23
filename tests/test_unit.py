@@ -16,5 +16,5 @@ def test_math_module_adds_and_validates() -> None:
     res = mod.controller.handle_add(15, 27)
     assert res.sum == 42
     assert res.history_count == 1
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="safe template bounds"):
         mod.controller.handle_add(2_000_000_000, 1)

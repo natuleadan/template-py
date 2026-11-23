@@ -10,6 +10,7 @@ Technical operating rules for this Python (`uv` + FastAPI) repository template.
 ## 2. Toolchain & Validation
 
 - Package & environment manager: `uv` with `pyproject.toml` and `uv.lock` (`requirements.txt` and Node.js tooling are forbidden).
+- Compiler & static safety: preserve `[tool.policy]` flags in `pyproject.toml` and AST rules in `tools/lint_check.py` (strict parameter/return annotations, no `Any`, no bare `except:`, no mutable defaults, no `assert`/`print` in `src/`, no `eval`/`exec`/`shell=True`, no boolean flag parameters in public APIs).
 - Enable hooks locally with `git config core.hooksPath .githooks` and run `uv run python -m tools.xtask validate` (`TOTAL PASS=8 FAIL=0`) before opening or updating any pull request.
 - Do not run `black`, `ruff format`, or `prettier` in hooks, CI, or pre-commit steps.
 
@@ -17,7 +18,7 @@ Technical operating rules for this Python (`uv` + FastAPI) repository template.
 
 - Organize domain logic under `src/app/modules/<domain>/` as a six-file layered modular layout (`entity.py`, `dto.py`, `repository.py`, `service.py`, `controller.py`, `module.py`).
 - Enforce unidirectional imports: `controller` calls `service` and `dto` (never `repository`); `entity` and `dto` must not import `service`, `repository`, or `controller`.
-- Keep every source and documentation file at or below **500 lines**.
+- Document all modules and public classes/functions in `src/` with docstrings and keep every source and documentation file at or below **500 lines**.
 
 ## 4. Commit, Dependency & License Policy
 
