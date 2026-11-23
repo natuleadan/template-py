@@ -1,6 +1,7 @@
 """Native ThirdPartyNotices.txt generator and verifier using importlib.metadata."""
 
 import importlib.metadata as meta
+import tomllib
 from pathlib import Path
 
 
@@ -28,10 +29,9 @@ def extract_license_text(dist: meta.Distribution) -> str:
 
 def read_project_name(root: Path) -> str:
     try:
-        import tomllib
         data = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
         return str(data.get("project", {}).get("name", ""))
-    except Exception:
+    except (OSError, tomllib.TOMLDecodeError):
         return ""
 
 

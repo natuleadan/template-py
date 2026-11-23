@@ -40,6 +40,11 @@ The included `src/app/modules/math/` module demonstrates this pattern with an ad
 3. Add functional tests in `tests/test_unit.py` and `tests/test_integration.py`, plus boundary assertions in `tests/test_architecture.py`.
 4. Run `uv run python -m tools.xtask validate` to verify all eight gates pass.
 
+## Strict AST Policy & Tripwires
+
+- **Policy Lock**: `pyproject.toml` `[tool.policy]` and `tools/lint_check.py` forbid mutable default arguments, bare `except:`, `assert`/`print` in `src/`, dynamic `eval`/`exec`/`shell=True`, `Any` annotations, and public `bool` parameters while enforcing docstrings and full sync/async annotations.
+- **Immutable Guardrails**: `tests/test_architecture.py` fails if `[tool.policy]` is weakened, formatter sections are added, or AST lint rules are removed.
+
 ## Monorepo Variant Architecture
 
 When scaling into multiple Python services and shared libraries, adopt the `uv` workspace layout:

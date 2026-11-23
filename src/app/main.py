@@ -1,7 +1,8 @@
 """FastAPI service entry point."""
 
+from dataclasses import dataclass
+
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 
 from app.modules.math.module import MathModule
 
@@ -9,19 +10,22 @@ app = FastAPI(title="Template Service", version="0.1.0")
 math_module = MathModule()
 
 
-class HealthResponse(BaseModel):
+@dataclass(frozen=True)
+class HealthResponse:
     """Health check payload."""
 
     status: str
 
 
-class GreetResponse(BaseModel):
+@dataclass(frozen=True)
+class GreetResponse:
     """Greeting payload."""
 
     message: str
 
 
-class MathAddResponse(BaseModel):
+@dataclass(frozen=True)
+class MathAddResponse:
     """Addition result payload."""
 
     sum: int

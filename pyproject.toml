@@ -1,6 +1,6 @@
 [project]
 name = "template-py-change-me"
-version = "0.0.0"
+version = "0.1.0"
 description = "Python uv FastAPI repository template with native validation and CI/CD"
 requires-python = ">=3.12"
 license = { text = "Apache-2.0" }
@@ -12,6 +12,8 @@ dependencies = [
 dev = [
     "pytest>=8.0.0",
     "httpx>=0.27.0",
+    "ruff>=0.11.0",
+    "mypy>=1.15.0",
 ]
 
 [tool.uv]
@@ -20,3 +22,96 @@ exclude-newer = "3 days"
 [tool.pytest.ini_options]
 pythonpath = ["src", "."]
 testpaths = ["tests"]
+
+[tool.policy]
+strict_annotations = true
+forbid_mutable_defaults = true
+forbid_bare_except = true
+forbid_assert_in_src = true
+forbid_print_in_src = true
+forbid_bool_params_in_src = true
+require_public_docstrings = true
+forbid_dynamic_exec = true
+
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E4",
+    "E7",
+    "E9",
+    "F",
+    "B",
+    "BLE",
+    "S",
+    "ANN",
+    "D",
+    "T20",
+    "UP",
+    "SIM",
+    "PERF",
+    "FBT",
+    "TRY",
+    "RUF",
+    "PGH",
+    "DTZ",
+    "ASYNC",
+    "A",
+    "C4",
+    "ARG",
+    "RET",
+    "SLF",
+    "PT",
+    "N",
+    "PL",
+]
+ignore = [
+    "A003",
+    "D107",
+    "TRY003",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "D103", "PLR2004", "SLF001", "T20"]
+"tools/**/*.py" = [
+    "T20",
+    "S603",
+    "S607",
+    "PLW1510",
+    "D103",
+    "FBT001",
+    "FBT002",
+    "PLR0911",
+    "PLR0912",
+    "PLR0915",
+    "PLR2004",
+]
+
+[tool.mypy]
+python_version = "3.12"
+mypy_path = "src"
+explicit_package_bases = true
+strict = true
+disallow_any_explicit = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+warn_unreachable = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+no_implicit_reexport = true
+strict_equality = true
+extra_checks = true
+enable_error_code = [
+    "ignore-without-code",
+    "redundant-expr",
+    "truthy-bool",
+    "truthy-iterable",
+    "possibly-undefined",
+    "unused-awaitable",
+]

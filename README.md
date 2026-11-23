@@ -5,6 +5,7 @@ Production-ready Python (`uv` + FastAPI) repository template featuring a native 
 ## Key Features
 
 - **100% Native Python + `uv` Tooling**: Managed via `uv` (`pyproject.toml` + `uv.lock`) with native AST/compilation checks (`tools/*.py`) and zero Node.js or external formatter dependencies.
+- **Strict AST & Annotation Policy Lock**: Enforces complete sync/async type annotations, forbids `Any`, bare `except:`, mutable default args, `assert`/`print` in `src/`, dynamic `eval`/`exec`/`shell=True`, and public `bool` parameter flags; `tests/test_architecture.py` locks all `[tool.policy]` settings.
 - **Layered Modular Architecture**: Reference domain module (`src/app/modules/math/`) separating `entity`, `dto`, `repository`, `service`, `controller`, and `module` layers with automated boundary tests.
 - **Eight Standardized Validation Gates**: `lint`, `typecheck`, `unit tests`, `integration and architecture tests`, `cooldown`, `hygiene`, `notices`, and `release`.
 - **Supply-Chain Hardening**: 3-day dependency publish-age cooldown (`exclude-newer = "3 days"`), CodeQL static analysis, and automated SBOM/dependency inventory artifacts.
@@ -53,8 +54,8 @@ uv run python -m tools.xtask release --check  # Verify pyproject.toml version ma
 
 | Gate | Implementation | Purpose |
 | :--- | :--- | :--- |
-| `lint` | `tools/lint_check.py` | AST lint rules, forbidden APIs, `compileall` |
-| `typecheck` | `tools/lint_check.py` | Return/parameter annotation verification |
+| `lint` | `tools/lint_check.py` | Strict AST security/idiom rules, docstrings, policy lock |
+| `typecheck` | `tools/lint_check.py` | Sync/async annotation checks and `Any` prohibition |
 | `unit tests` | `uv run pytest tests/test_unit.py` | Fast unit test execution |
 | `integration and architecture tests` | `uv run pytest tests/test_integration.py tests/test_architecture.py` | FastAPI endpoints and layer boundaries |
 | `cooldown` | `pyproject.toml` (`exclude-newer = "3 days"`) | 3-day package release cooldown |
