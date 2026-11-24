@@ -1,6 +1,6 @@
 [project]
 name = "template-py-change-me"
-version = "0.1.0"
+version = "0.1.1"
 description = "Python uv FastAPI repository template with native validation and CI/CD"
 requires-python = ">=3.12"
 license = { text = "Apache-2.0" }

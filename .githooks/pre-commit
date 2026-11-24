@@ -11,3 +11,4 @@ root = Path('.')
 ok = run_lint(root) and run_typecheck(root) and run_pytest('unit tests', ['tests/test_unit.py', '-q'])
 sys.exit(0 if ok else 1)
 "
+uv run python -m tools.xtask notices --check
